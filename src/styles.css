@@ -1,1 +1,6 @@
 /* Add application styles & imports to this file! */
+body {
+  padding: 0;
+  margin: 0;
+  background: #e9e9e9;
+}
