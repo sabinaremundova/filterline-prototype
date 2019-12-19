@@ -47,7 +47,6 @@ export class AutocompleteInputComponent implements OnInit {
 
   public ngOnInit() {
     this.checkInput();
-    this.fillAutocompleteAll();
   }
 
 
@@ -67,17 +66,18 @@ export class AutocompleteInputComponent implements OnInit {
         }
         if (BRACKETS.includes(this.currentInput)) {
           this.stack = new Bracket(this.currentInput as BracketType);
+          console.log(this.stack);
         } else if (LOGICAL_OPERATORS.includes(this.currentInput)) {
           this.stack = new LogicalOperator(this.currentInput as LogicalOperatorType);
+          console.log(this.stack);
         }
-        console.log(this.stack);
         if (this.mode === 'ADD') {
           this.addNewPart.emit(this.stack);
         } else {
           this.updatePart.emit(this.stack);
         }
-        this.fillAutocompleteAll();
         this.inputClear();
+        this.fillAutocompleteAll();
         break;
 
       case InputState.FILTER_OPERATOR:
@@ -88,20 +88,18 @@ export class AutocompleteInputComponent implements OnInit {
         } else {
           this.inputClear();
           this.fillAutocompleteAll();
-          this.state = InputState.ALL;
         }
         break;
 
       case InputState.VALUE:
         (this.stack as SimpleFilter).value = this.currentInput.split(' ')[2];
-
         if (this.mode === 'ADD') {
           this.addNewPart.emit(this.stack);
         } else {
           this.updatePart.emit(this.stack);
         }
-        this.fillAutocompleteOther();
         this.inputClear();
+        this.fillAutocompleteAll();
         break;
 
       case InputState.OTHER:
@@ -110,14 +108,13 @@ export class AutocompleteInputComponent implements OnInit {
         } else if (LOGICAL_OPERATORS.includes(this.currentInput)) {
           this.stack = new LogicalOperator(this.currentInput as LogicalOperatorType);
         }
-        console.log(this.stack);
         if (this.mode === 'ADD') {
           this.addNewPart.emit(this.stack);
         } else {
           this.updatePart.emit(this.stack);
         }
-        this.fillAutocompleteAll();
         this.inputClear();
+        this.fillAutocompleteAll();
         break;
     }
 
@@ -128,7 +125,23 @@ export class AutocompleteInputComponent implements OnInit {
   }
 
   private checkInput() {
-    this.mode = this.filterPart === 'EMPTY' ? 'ADD' : 'EDIT';
+    if (this.filterPart === 'EMPTY') {
+      this.mode = 'ADD';
+      this.fillAutocompleteAll();
+      this.inputClear();
+      return;
+    }
+    this.mode = 'EDIT';
+    if (this.filterPart instanceof Bracket) {
+      this.currentInput = this.filterPart.toString();
+      this.fillAutocompleteAll();
+    } else if (this.filterPart instanceof LogicalOperator) {
+      this.currentInput = this.filterPart.toString();
+      this.fillAutocompleteAll();
+    } else if (this.filterPart instanceof SimpleFilter) {
+      this.currentInput = this.filterPart.toString();
+      this.fillAutocompleteAll();
+    }
   }
 
   getColumnType(option: any): string {
