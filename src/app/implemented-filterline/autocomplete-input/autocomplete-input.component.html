@@ -5,11 +5,11 @@
        [(ngModel)]="currentInput"
        (change)="onValueChange()">
 <datalist id="autocomplete">
-    <option *ngFor="let option of autocompleteData">
-        {{option}}
-        <!--ng-template>
-          <span *ngIf="isColumn(option)">{{getColumnType(option)}}</span>
-          <span>{{option.toString()}}</span>
-        </ng-template-->
-    </option>
+  <option *ngFor="let option of autocompleteData">
+    {{option}}
+    <!--ng-template>
+      <span *ngIf="isColumn(option)">{{getColumnType(option)}}</span>
+      <span>{{option.toString()}}</span>
+    </ng-template-->
+  </option>
 </datalist>

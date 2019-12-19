@@ -6,12 +6,12 @@ import {AutocompleteInputComponent} from './autocomplete-input/autocomplete-inpu
 
 
 @NgModule({
-    declarations: [ImplementedFilterlineComponent, AutocompleteInputComponent],
-    exports: [ImplementedFilterlineComponent],
-    imports: [
-        CommonModule,
-        FormsModule
-    ]
+  declarations: [ImplementedFilterlineComponent, AutocompleteInputComponent],
+  exports: [ImplementedFilterlineComponent],
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class ImplementedFilterlineModule {
 }

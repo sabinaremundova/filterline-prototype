@@ -10,16 +10,16 @@ export enum BracketType {
 }
 */
 export enum FilterOperatorType {
-    EQUAL = '==',
-    NOT_EQUAL = '!=',
-    GREATER = '>',
-    LOWER = '<',
-    GREATER_EQUAL = '>=',
-    LOWER_EQUAL = '<=',
-    CONTAINS = 'contains',
-    STARTS_WITH = 'starts with',
-    ENDS_WITH = 'ends with',
-    IS_EMPTY = 'is empty',
-    IN = 'in'
+  EQUAL = '==',
+  NOT_EQUAL = '!=',
+  GREATER = '>',
+  LOWER = '<',
+  GREATER_EQUAL = '>=',
+  LOWER_EQUAL = '<=',
+  CONTAINS = 'contains',
+  STARTS_WITH = 'starts with',
+  ENDS_WITH = 'ends with',
+  IS_EMPTY = 'is empty',
+  IN = 'in'
 }
 

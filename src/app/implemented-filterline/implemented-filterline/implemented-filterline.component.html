@@ -1,28 +1,28 @@
 <div class="filterLineContainer">
 
-    <ng-container *ngFor="let filterItem of filters; index as i">
+  <ng-container *ngFor="let filterItem of filters; index as i">
 
-        <ng-container *ngIf="isInEditing(i); else displayFilter">
-            <app-autocomplete-input [filterPart]="filterItem"
-                                    [columns]="columns"
-                                    (updatePart)="updatePart($event)">
-            </app-autocomplete-input>
-        </ng-container>
+    <ng-container *ngIf="isInEditing(i); else displayFilter">
+      <app-autocomplete-input [filterPart]="filterItem"
+                              [columns]="columns"
+                              (updatePart)="updatePart($event)">
+      </app-autocomplete-input>
+    </ng-container>
 
-        <ng-template #displayFilter>
+    <ng-template #displayFilter>
       <span class="filterItem"
             [ngClass]="isActive(i) ? '' : 'filterItemInactive'"
             (dblclick)="startEdit(i)"
             (click)="toggleIsActive(i)">
         {{filterItem}}
       </span>
-        </ng-template>
+    </ng-template>
 
-    </ng-container>
+  </ng-container>
 
-    <app-autocomplete-input [filterPart]="'EMPTY'"
-                            [columns]="columns"
-                            (addNewPart)="addNewPart($event)">
-    </app-autocomplete-input>
+  <app-autocomplete-input [filterPart]="'EMPTY'"
+                          [columns]="columns"
+                          (addNewPart)="addNewPart($event)">
+  </app-autocomplete-input>
 
 </div>
