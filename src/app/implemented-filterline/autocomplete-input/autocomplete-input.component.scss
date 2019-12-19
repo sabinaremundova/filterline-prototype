@@ -1,0 +1,11 @@
+.inputField {
+  outline: none;
+  width: 300px;
+  border: 0;
+  padding: 8px;
+  background: none;
+}
+
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
