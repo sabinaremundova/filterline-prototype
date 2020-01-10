@@ -3,10 +3,10 @@
   <ng-container *ngFor="let filterItem of filters; index as i">
 
     <ng-container *ngIf="isInEditing(i); else displayFilter">
-      <app-autocomplete-input [filterPart]="filterItem"
-                              [columns]="columns"
-                              (updatePart)="updatePart($event)">
-      </app-autocomplete-input>
+      <app-filterline-input [filterPart]="filterItem"
+                            [columns]="columns"
+                            (updatePart)="updatePart($event)">
+      </app-filterline-input>
     </ng-container>
 
     <ng-template #displayFilter>
@@ -20,9 +20,9 @@
 
   </ng-container>
 
-  <app-autocomplete-input [filterPart]="'EMPTY'"
-                          [columns]="columns"
-                          (addNewPart)="addNewPart($event)">
-  </app-autocomplete-input>
+  <app-filterline-input [filterPart]="'EMPTY'"
+                        [columns]="columns"
+                        (addNewPart)="addNewPart($event)">
+  </app-filterline-input>
 
 </div>

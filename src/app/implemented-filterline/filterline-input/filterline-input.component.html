@@ -1,15 +1,18 @@
 <label for="filterLine"></label>
 <input class="inputField"
        id="filterLine"
-       list="autocomplete"
        [(ngModel)]="currentInput"
        (change)="onValueChange()">
-<datalist id="autocomplete">
-  <option *ngFor="let option of autocompleteData">
+<div #autocomplete>
+  <a *ngFor="let option of autocompleteData" class="dropdown-item" (click)="currentInput = option">
     {{option}}
     <!--ng-template>
       <span *ngIf="isColumn(option)">{{getColumnType(option)}}</span>
       <span>{{option.toString()}}</span>
     </ng-template-->
-  </option>
-</datalist>
+  </a>
+</div>
+
+<app-autocomplete-input
+  [allOptions]="autocompleteData"
+></app-autocomplete-input>

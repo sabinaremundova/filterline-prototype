@@ -1,0 +1,26 @@
+<div class="autocomplete-input">
+
+  <label for="input"><!-- empty --></label>
+  <input id="input"
+         type="text"
+         autocomplete="off"
+         [(ngModel)]="inputValue"
+         (change)="onInputChange()"
+         (focus)="onInputFocus()"
+         (blur)="onInputBlur()"
+         (dblclick)="onInputDoubleClick()"
+  >
+  <ul *ngIf="isDropdownVisible">
+
+    <li
+      *ngFor="let option of filteredOptions; index as index"
+      (click)="selectOption(index)"
+      (mouseenter)="setActiveOption(index)"
+    >
+      <span [ngTemplateOutlet]="optionTemplateGetter(option)"></span>
+      <span>{{option.toString()}}</span>
+    </li>
+
+  </ul>
+
+</div>

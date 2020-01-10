@@ -15,11 +15,11 @@ export enum InputState {
 
 
 @Component({
-  selector: 'app-autocomplete-input',
-  templateUrl: './autocomplete-input.component.html',
-  styleUrls: ['./autocomplete-input.component.scss']
+  selector: 'app-filterline-input',
+  templateUrl: './filterline-input.component.html',
+  styleUrls: ['./filterline-input.component.scss']
 })
-export class AutocompleteInputComponent implements OnInit {
+export class FilterlineInputComponent implements OnInit {
 
   @Input()
   filterPart: FilterPart;

@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AutocompleteInputComponent} from './autocomplete-input.component';
 
-describe('AutocompleteInputComponent', () => {
+describe('FilterlineInputComponent', () => {
   let component: AutocompleteInputComponent;
   let fixture: ComponentFixture<AutocompleteInputComponent>;
 

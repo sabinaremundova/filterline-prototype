@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {ImplementedFilterlineModule} from './implemented-filterline/implemented-filterline.module';
+import {AutocompleteInputComponent} from './common';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AutocompleteInputComponent
   ],
   imports: [
     BrowserModule,
@@ -19,6 +21,9 @@ import {ImplementedFilterlineModule} from './implemented-filterline/implemented-
     ImplementedFilterlineModule
   ],
   providers: [],
+  exports: [
+    AutocompleteInputComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
