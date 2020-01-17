@@ -8,8 +8,7 @@ export type InputMode = 'ADD' | 'EDIT';
 
 export enum InputState {
   ALL,
-  FILTER_OPERATOR,
-  VALUE,
+  SIMPLE_FILTER,
   OTHER
 }
 
@@ -37,6 +36,7 @@ export class FilterlineInputComponent implements OnInit {
   private state: InputState;
 
   public autocompleteData: string[] = [];
+  public filterOperators = FILTER_OPERATORS;
 
   public currentInput: string;
   private stack: FilterPart;
@@ -50,9 +50,48 @@ export class FilterlineInputComponent implements OnInit {
   }
 
 
-  private onValueChange() {
-    console.log('change');
+  public get isSimpleFilter(): boolean {
+    return this.stack && this.stack instanceof SimpleFilter;
+  }
 
+
+  onValueChange() {
+
+    switch (this.state) {
+
+      case InputState.ALL:
+        const column: Column = this.parseColumnObjectFromInput();
+        if (!column) {
+          this.parseOtherFromInput();
+          if (this.stack) {
+            this.emitResult();
+          }
+          break;
+        }
+        this.stack = new SimpleFilter();
+        this.stack.column = column;
+        this.state = InputState.SIMPLE_FILTER;
+        break;
+
+      case InputState.SIMPLE_FILTER:
+        if (this.stack instanceof SimpleFilter) {
+          if (this.stack.column && this.stack.operator && this.stack.value) {
+            this.emitResult();
+          }
+        }
+        break;
+
+      case InputState.OTHER:
+        this.parseOtherFromInput();
+        if (this.stack) {
+          this.emitResult();
+        }
+        break;
+    }
+  }
+
+
+  /*private onValueChange(newValue: string) {
     switch (this.state) {
       case InputState.ALL:
         const column: Column = this.parseColumnObjectFromInput();
@@ -64,18 +103,10 @@ export class FilterlineInputComponent implements OnInit {
           this.inputAddSpace();
           break;
         }
-        if (BRACKETS.includes(this.currentInput)) {
-          this.stack = new Bracket(this.currentInput as BracketType);
-          console.log(this.stack);
-        } else if (LOGICAL_OPERATORS.includes(this.currentInput)) {
-          this.stack = new LogicalOperator(this.currentInput as LogicalOperatorType);
-          console.log(this.stack);
-        }
-        if (this.mode === 'ADD') {
-          this.addNewPart.emit(this.stack);
-        } else {
-          this.updatePart.emit(this.stack);
-        }
+
+        this.parseOtherFromInput();
+        this.emitResult();
+
         this.inputClear();
         this.fillAutocompleteAll();
         break;
@@ -103,22 +134,14 @@ export class FilterlineInputComponent implements OnInit {
         break;
 
       case InputState.OTHER:
-        if (BRACKETS.includes(this.currentInput)) {
-          this.stack = new Bracket(this.currentInput as BracketType);
-        } else if (LOGICAL_OPERATORS.includes(this.currentInput)) {
-          this.stack = new LogicalOperator(this.currentInput as LogicalOperatorType);
-        }
-        if (this.mode === 'ADD') {
-          this.addNewPart.emit(this.stack);
-        } else {
-          this.updatePart.emit(this.stack);
-        }
+        this.parseOtherFromInput();
+        this.emitResult();
         this.inputClear();
         this.fillAutocompleteAll();
         break;
     }
 
-  }
+  }*/
 
   private parseColumnObjectFromInput(): Column | undefined {
     return this.columns.find((c: Column) => c.name === this.currentInput);
@@ -139,7 +162,10 @@ export class FilterlineInputComponent implements OnInit {
       this.currentInput = this.filterPart.toString();
       this.fillAutocompleteAll();
     } else if (this.filterPart instanceof SimpleFilter) {
-      this.currentInput = this.filterPart.toString();
+      this.currentInput = this.filterPart.column.name;
+      this.stack = new SimpleFilter();
+      this.stack.operator = this.filterPart.operator;
+      this.stack.value = this.filterPart.value;
       this.fillAutocompleteAll();
     }
   }
@@ -159,16 +185,6 @@ export class FilterlineInputComponent implements OnInit {
     this.autocompleteData = BRACKETS_AND_OPERATORS.concat(this.columns.map((c: Column) => c.name));
   }
 
-  private fillAutocompleteFilterOperators(): void {
-    this.state = InputState.FILTER_OPERATOR;
-    this.autocompleteData = FILTER_OPERATORS.map((op: FilterOperatorType) => `${this.currentInput} ${op}`);
-  }
-
-  private fillAutocompleteValue(): void {
-    this.state = InputState.VALUE;
-    this.autocompleteData = [];
-  }
-
   private inputClear(): void {
     this.currentInput = '';
     this.stack = null;
@@ -178,4 +194,19 @@ export class FilterlineInputComponent implements OnInit {
     this.currentInput += ' ';
   }
 
+  private parseOtherFromInput() {
+    if (BRACKETS.includes(this.currentInput)) {
+      this.stack = new Bracket(this.currentInput as BracketType);
+    } else if (LOGICAL_OPERATORS.includes(this.currentInput)) {
+      this.stack = new LogicalOperator(this.currentInput as LogicalOperatorType);
+    }
+  }
+
+  private emitResult() {
+    if (this.mode === 'ADD') {
+      this.addNewPart.emit(this.stack);
+    } else {
+      this.updatePart.emit(this.stack);
+    }
+  }
 }

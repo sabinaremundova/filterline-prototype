@@ -1,0 +1,32 @@
+.autocomplete-input {
+  width: 250px;
+  float: left;
+}
+
+
+.inputField {
+  outline: none;
+  width: 250px;
+  border: 0;
+  padding: 4px;
+  margin: 6px;
+  background: none;
+}
+
+.optionList {
+  list-style: none;
+  z-index: 1000;
+  background-color: #fff;
+  padding: 5px;
+  max-height: 400px;
+}
+
+.option {
+  padding-bottom: 2px;
+  padding-top: 2px;
+  cursor: pointer;
+}
+
+.optionActive {
+  background-color: lightpink;
+}

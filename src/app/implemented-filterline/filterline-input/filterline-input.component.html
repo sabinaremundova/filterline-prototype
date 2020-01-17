@@ -1,18 +1,29 @@
-<label for="filterLine"></label>
-<input class="inputField"
-       id="filterLine"
-       [(ngModel)]="currentInput"
-       (change)="onValueChange()">
-<div #autocomplete>
-  <a *ngFor="let option of autocompleteData" class="dropdown-item" (click)="currentInput = option">
-    {{option}}
-    <!--ng-template>
-      <span *ngIf="isColumn(option)">{{getColumnType(option)}}</span>
-      <span>{{option.toString()}}</span>
-    </ng-template-->
-  </a>
-</div>
+<app-autocomplete-input
+  #defaultInput
+  [allOptions]="autocompleteData"
+  [optionTemplate]="optionTemplate"
+  [(value)]="currentInput"
+  (valueChange)="onValueChange()"
+></app-autocomplete-input>
 
 <app-autocomplete-input
-  [allOptions]="autocompleteData"
+  #filterOpInput
+  *ngIf="isSimpleFilter"
+  [allOptions]="filterOperators"
+  [(value)]="stack.operator"
+  (valueChange)="onValueChange()"
+  [optionTemplate]="optionTemplate"
 ></app-autocomplete-input>
+
+<app-autocomplete-input
+  #value
+  *ngIf="isSimpleFilter && stack.operator"
+  [(value)]="stack.value"
+  (valueChange)="onValueChange()"
+></app-autocomplete-input>
+
+<ng-template #optionTemplate let-option>
+  {{option}}
+</ng-template>
+
+

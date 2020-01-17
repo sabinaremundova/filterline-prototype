@@ -11,7 +11,7 @@
 
     <ng-template #displayFilter>
       <span class="filterItem"
-            [ngClass]="isActive(i) ? '' : 'filterItemInactive'"
+            [ngClass]="{filterItemInactive: !isActive(i)}"
             (dblclick)="startEdit(i)"
             (click)="toggleIsActive(i)">
         {{filterItem}}

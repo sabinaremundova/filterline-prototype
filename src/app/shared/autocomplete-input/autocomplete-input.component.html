@@ -1,0 +1,33 @@
+<div class="autocomplete-input">
+
+  <label for="input" style="display: none"><!-- empty --></label>
+  <input id="input"
+         class="inputField"
+         type="text"
+         autocomplete="off"
+         [(ngModel)]="value"
+         (ngModelChange)="onInputChange()"
+         (focus)="onInputFocus()"
+         (blur)="onInputBlur()"
+         (dblclick)="onInputDoubleClick()"
+         (keyup.arrowDown)="setActiveNextOption()"
+         (keyup.arrowUp)="setActivePreviousOption()"
+         (keyup.enter)="onEnter()"
+  >
+  <div
+    *ngIf="isDropdownVisible"
+    class="optionList"
+  >
+    <ng-container *ngFor="let option of filteredOptions; index as index">
+      <div
+        (mousedown)="selectOption(index)"
+        (mouseover)="setActiveOption(index)"
+        class="option"
+        [ngClass]="{'optionActive': index === activeOption}"
+      >
+        <ng-template *ngTemplateOutlet="optionTemplate; context: {$implicit: option}"></ng-template>
+      </div>
+    </ng-container>
+  </div>
+
+</div>
